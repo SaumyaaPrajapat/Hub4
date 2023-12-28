@@ -3,7 +3,6 @@ import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import "./sidenavbar.css";
 
-let id = sessionStorage.getItem("id");
 const SideNavbar = () => {
   const [userId, setUserId] = useState(null);
   const [employees, setEmployee] = useState([]);
@@ -11,14 +10,14 @@ const SideNavbar = () => {
   const [allEmployees, setAllEmployees] = useState(null);
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
-  const employeeCount = (id) => {
+  const employeeCount = () => {
     axios
-      .get(`https://hub4-back.vercel.app/employee/employee_count/${id}`)
+      .get(`https://hub4-back.vercel.app/employee/employee_count`)
       .then((response) => {
         if (response.data.Status) {
           setEmployeeTotal(response.data.Result);
         } else {
-          console.error("Failed to fetch employee count:", response.data.Error);
+          console.error("Failed to fetch employee count");
         }
       })
       .catch((error) => {
@@ -26,18 +25,18 @@ const SideNavbar = () => {
       });
   };
 
-  const fetchSalaryTotal = (id) => {
+  const fetchSalaryTotal = () => {
     axios
-      .get(`https://hub4-back.vercel.app/employee/total_salary/${id}`)
+      .get(`https://hub4-back.vercel.app/employee/total_salary`)
       .then((response) => {
         if (response.data.Status) {
           setSalaryTotal(Number(response.data.Result));
         } else {
-          console.error("Failed to fetch salary total:", response.data.Error);
+          console.error("Failed to fetch salary total");
         }
       })
       .catch((error) => {
-        console.error("Error fetching salary total:", error);
+        console.error("Error");
       });
   };
 
@@ -68,7 +67,7 @@ const SideNavbar = () => {
   const fetchEmployee = async () => {
     try {
       const response = await axios.get(
-        `https://hub4-back.vercel.app/employee/employee/${id}`
+        `https://hub4-back.vercel.app/employee/employee`
       );
       if (response.data.employees && response.data.employees.length > 0) {
         setAllEmployees(response.data.employees);
