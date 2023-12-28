@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-let id = sessionStorage.getItem("id");
 const Users = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -35,6 +34,7 @@ const Users = () => {
 
   // Delete user
   const deleteUser = async (userId) => {
+    console.log(users);
     try {
       // Send a delete request to the backend
       const response = await axios.delete(
