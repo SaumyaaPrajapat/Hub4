@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+let id = sessionStorage.getItem("id");
 const Users = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -33,17 +34,17 @@ const Users = () => {
   }, []);
 
   // Delete user
-  const deleteUser = async (userId) => {
+  const deleteUser = async () => {
     console.log(users);
     try {
       // Send a delete request to the backend
       const response = await axios.delete(
-        `https://hub4-back.vercel.app/auth/delete_user/${userId}`
+        `https://hub4-back.vercel.app/auth/delete_user/${id}`
       );
 
       if (response.data.Status) {
         // If the delete operation is successful, update the user list
-        const updatedUsers = users.filter((u) => u._id !== userId);
+        const updatedUsers = users.filter((u) => u._id !== id);
         setUsers(updatedUsers);
         toast.success("User deleted successfully!");
       } else {
