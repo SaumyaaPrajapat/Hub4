@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../sidenavbar/sidenavbar.css";
 import "./category.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Update from "./update.jsx";
 
-let id = sessionStorage.getItem("id");
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState(null);
-  const navigate = useNavigate();
   // Add editingIndex state
   const [cname, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -24,7 +22,7 @@ const Category = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `https://hub4-back.vercel.app/category/category/${id}`
+        `https://hub4-back.vercel.app/category/category`
       );
       if (response.data.categories && response.data.categories.length > 0) {
         setAllCategories(response.data.categories);

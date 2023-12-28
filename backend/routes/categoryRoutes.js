@@ -5,17 +5,13 @@ const userModel = require("../model/signups");
 
 //category
 //get categories
-router.get("/category/:id", async (req, res) => {
+router.get("/category", async (req, res) => {
   try {
-    const userId = req.params.id;
-    if (!userId) {
-      return res.status(400).json({ error: "Invalid or missing user ID" });
-    }
-    const categories = await category.find({ user: userId });
+    const categories = await category.find({});
     if (categories.length > 0) {
       res.status(200).json({ categories });
     } else {
-      res.status(404).json({ message: "No categories found for this user" });
+      res.status(404).json({ message: "No categories found" });
     }
   } catch (err) {
     console.error(err);
