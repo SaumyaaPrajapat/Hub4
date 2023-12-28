@@ -1,0 +1,14 @@
+.userbtn {
+  background-color: #3498db;
+  color: #fff;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.userbtn:hover {
+  background-color: #5eaee3;
+}

@@ -27,7 +27,6 @@ router.get("/home", verifyUser, (req, res) => {
   console.log("Token verification passed. User: ", req.user);
   return res.status(200).json("Success");
 });
-
 //login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -58,7 +57,6 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 //register
 router.post("/register", async (req, res) => {
   try {
@@ -100,6 +98,26 @@ router.get("/users", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+// Delete user
+router.delete("/delete_user/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    if (!userId) {
+      return res.status(400).json({ error: "Invalid user ID" });
+    }
+    const result = await userModel.findByIdAndDelete(userId);
+    if (result) {
+      res
+        .status(200)
+        .json({ Status: true, Message: "User deleted successfully" });
+    } else {
+      res.status(404).json({ Status: false, Error: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ Status: false, Error: "Internal Server Error" });
   }
 });
 
