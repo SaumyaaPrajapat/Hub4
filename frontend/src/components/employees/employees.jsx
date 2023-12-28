@@ -5,7 +5,6 @@ import "./employee.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-let id = sessionStorage.getItem("id");
 const Employees = () => {
   const [employees, setEmployee] = useState([]);
   const [allEmployees, setAllEmployees] = useState(null);
@@ -14,7 +13,7 @@ const Employees = () => {
   const fetchEmployee = async () => {
     try {
       const response = await axios.get(
-        `https://hub4-back.vercel.app/employee/employee/${id}`
+        `https://hub4-back.vercel.app/employee/employee`
       );
       if (response.data.employees && response.data.employees.length > 0) {
         setAllEmployees(response.data.employees);
@@ -26,7 +25,6 @@ const Employees = () => {
       console.error("Error");
     }
   };
-
   useEffect(() => {
     fetchEmployee();
   }, [allEmployees]);

@@ -5,7 +5,6 @@ import "../sidenavbar/sidenavbar.css";
 import "./category.css";
 import "./addcategory.css";
 
-let id = sessionStorage.getItem("id");
 const AddCategory = () => {
   const navigate = useNavigate();
   const [categoryName, setCategoryName] = useState("");
@@ -13,14 +12,12 @@ const AddCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         "https://hub4-back.vercel.app/category/add_category",
         {
           name: categoryName,
           description: categoryDescription,
-          id: id,
         }
       );
       console.log(response.data);

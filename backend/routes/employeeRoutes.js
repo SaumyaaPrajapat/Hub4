@@ -4,18 +4,14 @@ const employee = require("../model/employee");
 const userModel = require("../model/signups");
 
 //employee
-//get employees for same user
-router.get("/employee/:id", async (req, res) => {
+//get employees
+router.get("/employee", async (req, res) => {
   try {
-    const userId = req.params.id;
-    if (!userId) {
-      return res.status(400).json({ error: "Invalid or missing user ID" });
-    }
-    const employees = await employee.find({ user: userId });
+    const employees = await employee.find({});
     if (employees.length > 0) {
       res.status(200).json({ employees });
     } else {
-      res.status(404).json({ message: "No employees found for this user" });
+      res.status(404).json({ message: "No employees found" });
     }
   } catch (error) {
     console.error(error);
@@ -23,36 +19,18 @@ router.get("/employee/:id", async (req, res) => {
   }
 });
 //get a single employee by user ID and employee ID
-router.get("/employee_s/:userId/:employeeId", async (req, res) => {
+router.get("/employee_s/:employeeId", async (req, res) => {
   try {
-    const userId = req.params.userId;
     const employeeId = req.params.employeeId;
-
-    if (!userId || !employeeId) {
-      return res
-        .status(400)
-        .json({ error: "Invalid or missing user or employee ID" });
+    if (!employeeId) {
+      return res.status(400).json({ error: "Invalid or missing employee ID" });
     }
-
-    console.log(
-      "Fetching employee data for userId:",
-      userId,
-      "employeeId:",
-      employeeId
-    );
-
-    const emp = await employee.findOne({ _id: employeeId, user: userId });
-
+    const emp = await employee.findOne({ _id: employeeId });
     if (emp) {
-      res.status(200).json(emp); // Return the single employee object
+      res.status(200).json(emp);
     } else {
-      console.log(
-        "Employee not found for userId:",
-        userId,
-        "employeeId:",
-        employeeId
-      );
-      res.status(404).json({ message: "Employee not found for this user" });
+      console.log("Employee not found for employeeId:", employeeId);
+      res.status(404).json({ message: "Employee not found" });
     }
   } catch (error) {
     console.error("Error fetching employee:", error);
@@ -64,25 +42,17 @@ router.get("/employee_s/:userId/:employeeId", async (req, res) => {
 //add employee
 router.post("/add_employee", async (req, res) => {
   try {
-    const { name, email, password, address, salary, categorys, id } = req.body;
-    const existingUser = await userModel.findById(id);
-    if (existingUser) {
-      const newEmp = new employee({
-        name,
-        email,
-        password,
-        address,
-        salary,
-        categorys,
-      });
-      newEmp.user = existingUser._id;
-      await newEmp.save();
-      existingUser.employee.push(newEmp._id);
-      await existingUser.save();
-      res.status(200).json({ employee: newEmp });
-    } else {
-      res.status(404).json({ error: "User not found" });
-    }
+    const { name, email, password, address, salary, categorys } = req.body;
+    const newEmp = new employee({
+      name,
+      email,
+      password,
+      address,
+      salary,
+      categorys,
+    });
+    await newEmp.save();
+    res.status(200).json({ employee: newEmp });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

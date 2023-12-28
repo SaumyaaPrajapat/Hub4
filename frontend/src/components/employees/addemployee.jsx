@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./addemployee.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-let id = sessionStorage.getItem("id");
 const AddEmployee = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +19,7 @@ const AddEmployee = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `https://hub4-back.vercel.app/category/category/${id}`
+        `https://hub4-back.vercel.app/category/category`
       );
       if (response.data.categories && response.data.categories.length > 0) {
         setAllCategories(response.data.categories);
@@ -34,7 +31,6 @@ const AddEmployee = () => {
       console.error("Error");
     }
   };
-
   useEffect(() => {
     fetchCategories();
   }, [allCategories]);
@@ -57,28 +53,22 @@ const AddEmployee = () => {
       address,
       salary,
       categorys,
-      id: id,
     };
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://hub4-back.vercel.app/employee/add_employee",
         formData
       );
-      console.log(response.data); // Log the response from the server
-      toast.success("Added successfully!");
-      // Optionally, you can navigate to a different page or update the UI based on the response.
       navigate("/home/employee");
     } catch (error) {
       console.error("Error");
-      toast.error("Error in adding. Please try again.");
       navigate("/home/employee");
     }
   };
 
   return (
     <div>
-      <ToastContainer />
       <div className="addempcontainer">
         <div className="addempcontent rounded border">
           <h3 className="text-center">Add Employee</h3>

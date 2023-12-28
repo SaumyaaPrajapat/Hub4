@@ -6,7 +6,6 @@ import "./addemployee.css";
 import "./editemployee.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-let id = sessionStorage.getItem("id");
 const EditEmployee = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -32,7 +31,7 @@ const EditEmployee = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `https://hub4-back.vercel.app/category/category/${id}`
+        `https://hub4-back.vercel.app/category/category`
       );
       if (response.data.categories && response.data.categories.length > 0) {
         setAllCategories(response.data.categories);
@@ -44,7 +43,6 @@ const EditEmployee = () => {
       console.error("Error");
     }
   };
-
   useEffect(() => {
     fetchCategories();
   }, [allCategories]);
@@ -55,7 +53,7 @@ const EditEmployee = () => {
     const fetchEmployeeData = async () => {
       try {
         const response = await axios.get(
-          `https://hub4-back.vercel.app/employee/employee_s/${id}/${employeeId}`
+          `https://hub4-back.vercel.app/employee/employee_s/${employeeId}`
         );
         setEmployeeData(response.data);
       } catch (error) {

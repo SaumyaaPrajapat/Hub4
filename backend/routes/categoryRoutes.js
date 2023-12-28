@@ -21,22 +21,13 @@ router.get("/category", async (req, res) => {
 //add category
 router.post("/add_category", async (req, res) => {
   try {
-    const { name, description, id } = req.body;
-    const existingUser = await userModel.findById(id);
-    if (existingUser) {
-      const newCategory = new category({
-        name,
-        description,
-        user: existingUser._id,
-      });
-      newCategory.user = existingUser._id;
-      await newCategory.save();
-      existingUser.list.push(newCategory._id);
-      await existingUser.save();
-      res.status(200).json({ category: newCategory });
-    } else {
-      res.status(404).json({ error: "User not found" });
-    }
+    const { name, description } = req.body;
+    const newCategory = new category({
+      name,
+      description,
+    });
+    await newCategory.save();
+    res.status(200).json({ category: newCategory });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
