@@ -35,7 +35,6 @@ const Users = () => {
 
   // Delete user
   const deleteUser = async () => {
-    console.log(users);
     try {
       // Send a delete request to the backend
       const response = await axios.delete(
