@@ -35,7 +35,6 @@ const AddUsers = () => {
     setError("");
     axios
       .post("https://hub4-back.vercel.app/auth/register", {
-        id: id,
         name,
         email,
         password,
