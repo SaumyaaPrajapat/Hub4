@@ -9,22 +9,25 @@ router.use(express.json());
 router.use(cookieParser());
 
 const verifyUser = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (token == null) return res.sendStatus(401); // if there isn't any token
-
-  jwt.verify(token, "your-secret-key", (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next(); // pass the execution off to whatever request the client intended
-  });
+  const token = req.cookies.token;
+  console.log(token);
+  if (!token) {
+    return res.json("The token was not available");
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      console.log(userVer);
+      if (err) return res.json("Token is wrong");
+      req.user = decoded;
+      next();
+    });
+  }
 };
 
 router.get("/home", verifyUser, (req, res) => {
   console.log("Token verification passed. User: ", req.user);
   return res.status(200).json("Success");
 });
+
 //login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -36,9 +39,15 @@ router.post("/login", async (req, res) => {
     const passwordMatch = bcrypt.compare(password, user.password);
     if (passwordMatch) {
       const { password, ...others } = user._doc;
-      // Create a JWT
-      const token = jwt.sign(others, "your-secret-key", { expiresIn: "1h" });
-      return res.status(200).json({ token, ...others });
+      const token = jwt.sign(
+        { email: user.email, userId: user._id },
+        "jwt-secret-key",
+        {
+          expiresIn: "1d",
+        }
+      );
+      res.cookie("token", token);
+      return res.status(200).json({ others, token });
     } else {
       return res
         .status(401)
