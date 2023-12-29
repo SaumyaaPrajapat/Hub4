@@ -58,7 +58,6 @@ function Login() {
       } else {
         setError("Login failed. Please try again.");
       }
-      console.error(err);
     }
   };
 

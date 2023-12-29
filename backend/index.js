@@ -8,12 +8,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const app = express();
 const PORT = 4001;
 
-app.use(
-  cors({
-    origin: "https://hub4.vercel.app",
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/employee", employeeRoutes);
