@@ -20,7 +20,7 @@ const verifyUser = (req, res, next) => {
 };
 
 router.get("/home", verifyUser, (req, res) => {
-  return res.status(200).json("Success");
+  return res.status(200).json({ success: true, user: req.user });
 });
 
 //login
