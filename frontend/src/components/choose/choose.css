@@ -1,0 +1,65 @@
+.choose-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.flex-containers {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.choose-box {
+  background: rgba(123, 198, 225, 0.792);
+  border-radius: 5px;
+  width: 30%;
+  padding: 30px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 12px rgb(8, 112, 150);
+  color: #ffffff;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.choose-box:hover {
+  background: rgb(8, 112, 150);
+}
+@media (max-width: 800px) {
+  .flex-containers {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .choose-box {
+    width: 60%;
+    padding: 40px;
+  }
+}
+@media (max-width: 600px) {
+  .flex-containers {
+    padding-top: 160px;
+    padding-bottom: 40px;
+  }
+  .choose-box {
+    width: 80%;
+    padding: 40px;
+  }
+}
+.choose-circles {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.choose-profile {
+  height: 60px;
+  width: 60px;
+  transition: 0.3s;
+}

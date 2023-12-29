@@ -52,7 +52,11 @@ function Login() {
         sessionStorage.setItem("email", data.others.email);
         sessionStorage.setItem("role", data.others.role);
         dispatch(authActions.login());
-        navigate("/home");
+        if (data.others.role === "user") {
+          navigate("/home/employee");
+        } else {
+          navigate("/home");
+        }
         window.location.reload();
       } else {
         setError("Login failed. Please try again.");
@@ -105,7 +109,7 @@ function Login() {
             >
               <li className="nav">
                 <Link
-                  to="/register"
+                  to="/choose"
                   className="nav-link btn btn-outline rounded-10"
                   style={{
                     ...buttonStyle,
@@ -114,7 +118,7 @@ function Login() {
                   onMouseEnter={() => setIsHoveredSignUp(true)}
                   onMouseLeave={() => setIsHoveredSignUp(false)}
                 >
-                  Signup
+                  Get started
                 </Link>
               </li>
               <li className="nav">
@@ -215,14 +219,6 @@ function Login() {
               </button>
             </div>
           </form>
-          <p className="d-flex justify-content-center align-items-center mt-3">
-            <Link
-              to="/forgotpass"
-              style={{ color: "#FFF", textDecoration: "none" }}
-            >
-              Forgot Password
-            </Link>
-          </p>
         </div>
       </div>
     </div>

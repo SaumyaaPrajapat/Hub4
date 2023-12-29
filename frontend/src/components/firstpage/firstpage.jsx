@@ -64,7 +64,7 @@ const FirstPage = () => {
                 >
                   <li className="nav">
                     <Link
-                      to="/register"
+                      to="/choose"
                       className="nav-link btn btn-outline rounded-10"
                       style={{
                         ...buttonStyle,
@@ -73,7 +73,7 @@ const FirstPage = () => {
                       onMouseEnter={() => setIsHoveredSignUp(true)}
                       onMouseLeave={() => setIsHoveredSignUp(false)}
                     >
-                      Signup
+                      Get started
                     </Link>
                   </li>
                   <li className="nav">

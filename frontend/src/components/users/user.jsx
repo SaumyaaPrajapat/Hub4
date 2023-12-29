@@ -4,13 +4,14 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
 import "./user.css";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditUser from "./edituser";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   //get users
   const fetchUsers = async () => {
@@ -18,7 +19,6 @@ const Users = () => {
       const response = await axios.get(
         `https://hub4-back.vercel.app/auth/users`
       );
-      console.log("Server response:", response.data);
       if (response.data && response.data.length > 0) {
         setUsers(response.data);
       } else {
@@ -50,6 +50,12 @@ const Users = () => {
     }
   };
 
+  // Edit user
+  const handleEditUser = (userId) => {
+    setSelectedUserId(userId);
+    setIsEditModalOpen(true);
+  };
+
   return (
     <div>
       <div className="empcontainer">
@@ -77,13 +83,16 @@ const Users = () => {
             </thead>
             <tbody>
               {users.map((u) => {
-                console.log("User ID:", u._id);
                 return (
                   <tr key={u._id}>
                     <td>{u.name}</td>
                     <td>{u.email}</td>
                     <td>
-                      <button className="userbtn" title="Update">
+                      <button
+                        onClick={() => handleEditUser(u._id)}
+                        className="userbtn"
+                        title="Update"
+                      >
                         <FaRegEdit />
                       </button>
                       <button
@@ -101,6 +110,12 @@ const Users = () => {
           </table>
         </div>
       </div>
+      {isEditModalOpen && (
+        <EditUser
+          userId={selectedUserId}
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

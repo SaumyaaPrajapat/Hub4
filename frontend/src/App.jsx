@@ -18,6 +18,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux/es/exports";
 import { authActions } from "./store";
 import ProtectedRoute from "./components/ProtectRoute/ProtectedRoute";
+import Choose from "./components/choose/choose";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<FirstPage />}></Route>
+        <Route path="/choose" element={<Choose />}></Route>
         <Route path="/register" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgotpass" element={<Forgot />}></Route>
