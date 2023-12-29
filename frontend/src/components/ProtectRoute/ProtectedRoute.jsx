@@ -40,7 +40,7 @@ const ProtectedRoute = ({ children }) => {
           if (res.status === 200) {
             setUserData(res.data.user);
           } else {
-            // navigate("/login");
+            navigate("/login");
           }
         })
         .catch((err) => {

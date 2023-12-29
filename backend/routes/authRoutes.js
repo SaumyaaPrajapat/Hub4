@@ -7,16 +7,25 @@ const userModel = require("../model/signups");
 router.use(express.json());
 
 const verifyUser = (req, res, next) => {
-  const token = req.headers.authorization;
-  if (!token) {
-    return res.status(401).json({ error: "Authorization token not provided" });
+  try {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Authorization token not provided" });
+    }
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) {
+        throw err;
+      }
+      req.user = decoded;
+      next();
+    });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ success: false, error: "Token is invalid or expired" });
   }
-  jwt.verify(token, "jwt-secret-key", (err, decoded) => {
-    if (err)
-      return res.status(401).json({ error: "Token is invalid or expired" });
-    req.user = decoded;
-    next();
-  });
 };
 
 router.get("/home", verifyUser, (req, res) => {
@@ -34,13 +43,9 @@ router.post("/login", async (req, res) => {
     const passwordMatch = bcrypt.compare(password, user.password);
     if (passwordMatch) {
       const { password, ...others } = user._doc;
-      const token = jwt.sign(
-        { email: user.email, userId: user._id },
-        "jwt-secret-key",
-        {
-          expiresIn: "1d",
-        }
-      );
+      const token = jwt.sign({ userId: user._id }, "jwt-secret-key", {
+        expiresIn: "1h",
+      });
       return res.status(200).json({ others, token });
     } else {
       return res
