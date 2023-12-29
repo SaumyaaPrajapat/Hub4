@@ -73,6 +73,7 @@ const ProtectedRoute = ({ children }) => {
 
   const dispatch = useDispatch();
   const logout = () => {
+    sessionStorage.removeItem("token");
     sessionStorage.clear("id");
     dispatch(authActions.logout());
   };
