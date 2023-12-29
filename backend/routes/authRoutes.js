@@ -91,9 +91,7 @@ router.post("/register", async (req, res) => {
 // Get all users (not admins)
 router.get("/users", async (req, res) => {
   try {
-    const users = await userModel
-      .find({ role: "user" })
-      .select("name email -_id");
+    const users = await userModel.find({}, "_id name email");
     res.json(users);
   } catch (error) {
     console.error(error);

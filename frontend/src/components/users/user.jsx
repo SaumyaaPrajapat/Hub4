@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-let id = sessionStorage.getItem("id");
 const Users = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ const Users = () => {
       const response = await axios.get(
         `https://hub4-back.vercel.app/auth/users`
       );
+      console.log("Server response:", response.data);
       if (response.data && response.data.length > 0) {
         setUsers(response.data);
       } else {
@@ -77,6 +77,7 @@ const Users = () => {
             </thead>
             <tbody>
               {users.map((u) => {
+                console.log("User ID:", u._id);
                 return (
                   <tr key={u._id}>
                     <td>{u.name}</td>
