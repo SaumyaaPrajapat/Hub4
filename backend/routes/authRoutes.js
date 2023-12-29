@@ -88,10 +88,10 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-// Get all users (not admins)
+// Get all users with role "user" (not admins)
 router.get("/users", async (req, res) => {
   try {
-    const users = await userModel.find({}, "_id name email");
+    const users = await userModel.find({ role: "user" }, "_id name email");
     res.json(users);
   } catch (error) {
     console.error(error);
