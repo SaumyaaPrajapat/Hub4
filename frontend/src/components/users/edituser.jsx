@@ -1,23 +1,12 @@
 import React, { useState } from "react";
 import "./edituser.css";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const EditUser = ({
-  onClose,
-  onUpdate,
-  userId,
-  uname,
-  uemail,
-  upassword,
-  urole,
-}) => {
+const EditUser = ({ onClose, onUpdate, userId, uname, uemail, urole }) => {
   const [updatedName, setUpdatedName] = useState(uname);
   const [updatedEmail, setUpdatedEmail] = useState(uemail);
   const [updatedRole, setUpdatedRole] = useState(urole);
-  const [updatedPassword, setUpdatedPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const handleUpdate = () => {
-    onUpdate(userId, updatedName, updatedEmail, updatedRole, updatedPassword);
+    onUpdate(userId, updatedName, updatedEmail, updatedRole);
     // Close the modal
     onClose();
   };
@@ -26,10 +15,6 @@ const EditUser = ({
     onClose();
   };
 
-  const handleShowPassword = (event) => {
-    event.preventDefault();
-    setShowPassword(!showPassword);
-  };
   return (
     <div className="edit-overlay">
       <div className="edit-content">
@@ -61,27 +46,6 @@ const EditUser = ({
             autoComplete="off"
             value={updatedEmail}
             onChange={(e) => setUpdatedEmail(e.target.value)}
-          />
-        </div>
-        <div className="usergroup">
-          <div className="passwords">
-            <label htmlFor="inputPassword4" className="form-label">
-              Password
-            </label>
-            <div className="showpassword">
-              <button onClick={(event) => handleShowPassword(event)}>
-                {showPassword ? <FiEye /> : <FiEyeOff />}
-              </button>
-            </div>
-          </div>
-          <input
-            type={showPassword ? "text" : "password"}
-            className="addemp form-control"
-            id="inputPassword4"
-            placeholder="Enter Password"
-            required
-            value={updatedPassword}
-            onChange={(e) => setUpdatedPassword(e.target.value)}
           />
         </div>
         <div className="usergroup">

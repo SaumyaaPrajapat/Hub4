@@ -79,7 +79,7 @@ const Users = () => {
   ) => {
     try {
       const response = await axios.put(
-        `https://hub4-back.vercel.app/category/update_user/${userId}`,
+        `https://hub4-back.vercel.app/auth/update_user/${userId}`,
         {
           name: updatedUserName,
           email: updatedUserEmail,
