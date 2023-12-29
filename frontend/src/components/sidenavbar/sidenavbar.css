@@ -1,5 +1,5 @@
 @media (max-width: 800px) {
-  /* Hide the Email, Address, Salary, and Category columns on screens with a width of 768px or less */
+  /* Hide the Email, Address, and Category columns on screens with a width of 768px or less */
   .table th:nth-child(2),
   .table td:nth-child(2),
   .table th:nth-child(4),

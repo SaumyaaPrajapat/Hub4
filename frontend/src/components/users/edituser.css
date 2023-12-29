@@ -1,8 +1,9 @@
 /* Buttons styles */
-.btns2 {
+.btns2grp {
   display: flex;
   justify-content: center;
   gap: 20px;
+  padding-bottom: 20px;
 }
 
 .btnup,
@@ -35,7 +36,7 @@
 }
 
 /* Update.css styles */
-.update-overlay {
+.edit-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,19 +49,27 @@
   z-index: 100;
 }
 
-.updatetext {
+.edittext {
   color: black;
   text-align: center;
-  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
-.update-content {
+.edit-content {
   justify-content: center;
   background: #fff;
-  padding: 40px;
+  padding: 50px;
   width: 50%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.edit-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
 }
 
 /* Media queries for responsiveness */
@@ -69,17 +78,8 @@
     width: 70%;
   }
 }
-
-.update-overlay {
-  /* Add your existing styles for light mode */
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
+.usergroup {
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }

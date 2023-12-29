@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import "./edituser.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
-  const [updatedName, setUpdatedName] = useState(name);
-  const [updatedEmail, setUpdatedEmail] = useState(email);
-  const [updatedRole, setUpdatedRole] = useState(role);
+const EditUser = ({
+  onClose,
+  onUpdate,
+  userId,
+  uname,
+  uemail,
+  upassword,
+  urole,
+}) => {
+  const [updatedName, setUpdatedName] = useState(uname);
+  const [updatedEmail, setUpdatedEmail] = useState(uemail);
+  const [updatedRole, setUpdatedRole] = useState(urole);
   const [updatedPassword, setUpdatedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handleUpdate = () => {
@@ -23,10 +31,10 @@ const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className="update-overlay">
-      <div className="update-content">
-        <h3 className="updatetext">Update User Details</h3>
-        <div className="addempgroup">
+    <div className="edit-overlay">
+      <div className="edit-content">
+        <h3 className="edittext">Update User Details</h3>
+        <div className="usergroup">
           <label htmlFor="inputName" className="form-label">
             Name
           </label>
@@ -40,7 +48,7 @@ const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
             onChange={(e) => setUpdatedName(e.target.value)}
           />
         </div>
-        <div className="addempgroup">
+        <div className="usergroup">
           <label htmlFor="inputEmail4" className="form-label">
             Email
           </label>
@@ -55,7 +63,7 @@ const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
             onChange={(e) => setUpdatedEmail(e.target.value)}
           />
         </div>
-        <div className="addempgroup">
+        <div className="usergroup">
           <div className="passwords">
             <label htmlFor="inputPassword4" className="form-label">
               Password
@@ -76,7 +84,7 @@ const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
             onChange={(e) => setUpdatedPassword(e.target.value)}
           />
         </div>
-        <div className="addempgroup">
+        <div className="usergroup">
           <label
             htmlFor="category"
             className="form-label"
@@ -90,7 +98,7 @@ const EditUser = ({ onClose, onUpdate, userId, name, email, role }) => {
             <option value="admin">Admin</option>
           </select>
         </div>
-        <div className="btns2">
+        <div className="btns2grp">
           <button className="btnup " onClick={handleUpdate}>
             Update
           </button>

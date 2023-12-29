@@ -10,7 +10,11 @@ import EditUser from "./edituser";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  // Add editingIndex state
+  const [uname, setName] = useState("");
+  const [uemail, setEmail] = useState("");
+  const [urole, setRole] = useState("");
+  const [userId, setSelectedId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   //get users
@@ -41,7 +45,6 @@ const Users = () => {
       );
       if (response.status === 200) {
         toast.success("User deleted successfully");
-        // Fetch users again after deletion
         fetchUsers();
       }
     } catch (error) {
@@ -50,10 +53,60 @@ const Users = () => {
     }
   };
 
-  // Edit user
-  const handleEditUser = (userId) => {
-    setSelectedUserId(userId);
+  //for update
+  const handleOpenEditModal = (userId, uname, uemail, urole) => {
+    setSelectedId(userId);
+    setName(uname);
+    setEmail(uemail);
+    setRole(urole);
     setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setSelectedId(null);
+    setName("");
+    setEmail("");
+    setRole("");
+    setIsEditModalOpen(false);
+  };
+
+  //update
+  const handleUpdate = async (
+    userId,
+    updatedUserName,
+    updatedUserEmail,
+    updatedUserRole
+  ) => {
+    try {
+      const response = await axios.put(
+        `https://hub4-back.vercel.app/category/update_user/${userId}`,
+        {
+          name: updatedUserName,
+          email: updatedUserEmail,
+          role: updatedUserRole,
+        }
+      );
+      if (response.data.updatedUser) {
+        const updatedUsers = users.map((user) =>
+          user._id === userId
+            ? {
+                ...user,
+                name: response.data.updatedUser.name,
+                email: response.data.updatedUser.email,
+                role: response.data.updatedUser.role,
+              }
+            : user
+        );
+        setUsers(updatedUsers);
+        toast.success("Updated successfully!");
+        handleCloseEditModal();
+      } else {
+        toast.error("Error in updating. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error in updating. Please try again.");
+    }
   };
 
   return (
@@ -89,7 +142,9 @@ const Users = () => {
                     <td>{u.email}</td>
                     <td>
                       <button
-                        onClick={() => handleEditUser(u._id)}
+                        onClick={() =>
+                          handleOpenEditModal(u._id, u.name, u.email, u.role)
+                        }
                         className="userbtn"
                         title="Update"
                       >
@@ -106,16 +161,20 @@ const Users = () => {
                   </tr>
                 );
               })}
+              {isEditModalOpen && (
+                <EditUser
+                  userId={userId}
+                  onClose={handleCloseEditModal}
+                  onUpdate={handleUpdate}
+                  uname={uname}
+                  uemail={uemail}
+                  urole={urole}
+                />
+              )}
             </tbody>
           </table>
         </div>
       </div>
-      {isEditModalOpen && (
-        <EditUser
-          userId={selectedUserId}
-          onClose={() => setIsEditModalOpen(false)}
-        />
-      )}
     </div>
   );
 };

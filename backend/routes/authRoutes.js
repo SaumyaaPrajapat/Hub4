@@ -115,5 +115,25 @@ router.delete("/users/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+//update user
+router.put("/update_user/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, email, role } = req.body;
+
+  try {
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { name, email, role },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error in updating. Please try again." });
+  }
+});
 
 module.exports = router;
