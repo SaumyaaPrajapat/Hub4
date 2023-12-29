@@ -2,29 +2,24 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 const userModel = require("../model/signups");
 
 router.use(express.json());
-router.use(cookieParser());
 
 const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
-  console.log(token);
+  const token = req.headers.authorization;
   if (!token) {
-    return res.json("The token was not available");
-  } else {
-    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
-      console.log(userVer);
-      if (err) return res.json("Token is wrong");
-      req.user = decoded;
-      next();
-    });
+    return res.status(401).json({ error: "Authorization token not provided" });
   }
+  jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    if (err)
+      return res.status(401).json({ error: "Token is invalid or expired" });
+    req.user = decoded;
+    next();
+  });
 };
 
 router.get("/home", verifyUser, (req, res) => {
-  console.log("Token verification passed. User: ", req.user);
   return res.status(200).json("Success");
 });
 
@@ -46,7 +41,6 @@ router.post("/login", async (req, res) => {
           expiresIn: "1d",
         }
       );
-      res.cookie("token", token, { httpOnly: true });
       return res.status(200).json({ others, token });
     } else {
       return res

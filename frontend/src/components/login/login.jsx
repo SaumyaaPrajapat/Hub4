@@ -47,6 +47,7 @@ function Login() {
       console.log("Login response:", data);
       if (data && data.token) {
         console.log("Logged in Successfully");
+        sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("id", data.others._id);
         sessionStorage.setItem("name", data.others.name);
         sessionStorage.setItem("email", data.others.email);
