@@ -6,16 +6,15 @@ import { useNavigate } from "react-router-dom";
 const App = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    axios
-      .get("https://hub4-back.vercel.app/auth/home")
-      .then((res) => {
-        console.log(res);
-        if (res.data !== "Success") {
-          //navigate("/login");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      // Redirect to the login page if not authenticated
+      navigate("/login");
+    } else {
+      // Include the token in the headers for authentication
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+  }, [navigate]);
 
   return (
     <div>
