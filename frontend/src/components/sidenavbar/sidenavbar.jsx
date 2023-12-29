@@ -2,35 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import "./sidenavbar.css";
-import { useNavigate } from "react-router-dom";
 
 const SideNavbar = () => {
-  const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
   const [employees, setEmployee] = useState([]);
   const [name, setUserName] = useState("");
   const [allEmployees, setAllEmployees] = useState(null);
   const [employeeTotal, setEmployeeTotal] = useState(0);
   const [salaryTotal, setSalaryTotal] = useState(0);
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    } else {
-      axios
-        .get("https://hub4-back.vercel.app/auth/home")
-        .then((response) => {
-          const user = response.data;
-          setUserData(user);
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-          navigate("/login");
-        });
-    }
-  }, [navigate]);
 
   const employeeCount = () => {
     axios
