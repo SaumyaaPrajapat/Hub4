@@ -34,25 +34,19 @@ const Users = () => {
   }, []);
 
   // Delete user
-  const deleteUser = async () => {
+  const deleteUser = async (userId) => {
     try {
-      // Send a delete request to the backend
       const response = await axios.delete(
-        `https://hub4-back.vercel.app/auth/delete_user/${id}`
+        `https://hub4-back.vercel.app/auth/users/${userId}`
       );
-
-      if (response.data.Status) {
-        // If the delete operation is successful, update the user list
-        const updatedUsers = users.filter((u) => u._id !== id);
-        setUsers(updatedUsers);
-        toast.success("User deleted successfully!");
-      } else {
-        alert(response.data.Error);
-        toast.error("Error in deleting user. Please try again.");
+      if (response.status === 200) {
+        toast.success("User deleted successfully");
+        // Fetch users again after deletion
+        fetchUsers();
       }
     } catch (error) {
-      console.error("Error deleting user:", error);
-      toast.error("Error in deleting user. Please try again.");
+      console.error("Error deleting user", error);
+      toast.error("Error deleting user. Please try again.");
     }
   };
 
