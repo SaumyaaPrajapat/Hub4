@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 const App = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = document.cookie
+      .split(";")
+      .find((item) => item.trim().startsWith("token="));
+
     if (!token) {
       // Redirect to the login page if not authenticated
       navigate("/login");
