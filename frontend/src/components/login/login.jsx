@@ -47,10 +47,10 @@ function Login() {
       console.log("Login response:", data);
       if (data && data.token) {
         console.log("Logged in Successfully");
-        // sessionStorage.setItem("id", data.others._id);
-        // sessionStorage.setItem("name", data.others.name);
-        // sessionStorage.setItem("email", data.others.email);
-        // sessionStorage.setItem("role", data.others.role);
+        sessionStorage.setItem("id", data.others._id);
+        sessionStorage.setItem("name", data.others.name);
+        sessionStorage.setItem("email", data.others.email);
+        sessionStorage.setItem("role", data.others.role);
         dispatch(authActions.login());
         if (data.others.role === "user") {
           navigate("/home/employee");
