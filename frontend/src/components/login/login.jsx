@@ -20,8 +20,8 @@ function Login() {
   useEffect(() => {
     // Check if the user is already logged in
     const token = document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("token="));
+      .split("; ")
+      .find((row) => row.startsWith("token"));
     if (token) {
       navigate("/home");
     }

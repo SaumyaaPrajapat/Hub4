@@ -7,15 +7,15 @@ const App = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("token="));
+      .split("; ")
+      .find((row) => row.startsWith("token"));
 
     if (!token) {
-      // Redirect to the login page if not authenticated
-      navigate("/login");
+      //navigate("/login");
     } else {
-      // Include the token in the headers for authentication
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${
+        token.split("=")[1]
+      }`;
     }
   }, [navigate]);
 
